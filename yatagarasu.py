@@ -1,6 +1,11 @@
 from discord.ext import tasks,commands
 from discord.utils import get
 import discord
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 initial_extension = ['cogs.balance','cogs.mod']
 
@@ -81,9 +86,8 @@ async def getMember(ctx):
 async def run(ctx):
 	card = discord.Embed(
 	color=ctx.author.color,
-	title="Running loops"
 	)
-	card.set_author(name=ctx.author.name,icon_url=ctx.author.avatar_url_as(static_format='png'))
+	card.set_author(name="Running loops",icon_url=ctx.author.avatar_url_as(static_format='png'))
 	getMember.start(ctx)
 	await ctx.send(embed=card)
 	ctx.command.enabled = False
@@ -108,4 +112,4 @@ async def on_command_error(ctx, error):
 
 
 
-bot.run('NzIxMjMzNDAwODMyNDU4Nzgy.XuRl_w.tVV-YjtlsTUeRDI_rY3bZETGvyU')
+bot.run(TOKEN)
