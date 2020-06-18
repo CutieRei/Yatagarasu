@@ -4,7 +4,6 @@ import discord
 
 initial_extension = ['cogs.balance','cogs.mod']
 
-hasRun = False
 
 
 bot = commands.Bot(command_prefix=".")
@@ -73,26 +72,21 @@ async def disconnect(ctx):
 	await ctx.send(embed=card)
 	await bot.logout()
 
+@tasks.loop(seconds=10)
+async def getMember(ctx):
+	print([i.name for i in ctx.guild.members])
+
 @bot.command()
 @commands.has_role("Admin")
 async def run(ctx):
 	card = discord.Embed(
 	color=ctx.author.color,
-	title"Running loops"
+	title="Running loops"
 	)
 	card.set_author(name=ctx.author.name,icon_url=ctx.author.avatar_url_as(static_format='png'))
-	if hasRun == False:
-		getMember.start(ctx)
-		await ctx.send(embed=card)
-		hasRun = True
-	else:
-		card.title="Loop already running!"
-		await ctx.send(embed=card)
-
-
-@tasks.loop(seconds=10)
-async def getMemeber(ctx):
-	print([i.name for i in ctx.guild.members])
+	getMember.start(ctx)
+	await ctx.send(embed=card)
+	ctx.command.enabled = False
 	
 			
 @bot.event
