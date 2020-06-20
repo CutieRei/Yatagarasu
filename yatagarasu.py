@@ -19,7 +19,7 @@ cmdPre = bot.command_prefix
 if __name__ == '__main__':
 	for extension in initial_extension:
 		bot.load_extension(extension)
-		
+	
 date = 0
 joinedH = 0
 joinedM = 0
