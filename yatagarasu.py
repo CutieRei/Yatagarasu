@@ -3,6 +3,7 @@ from discord.utils import get
 import discord
 from dotenv import load_dotenv
 import os
+import datetime
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -18,10 +19,19 @@ cmdPre = bot.command_prefix
 if __name__ == '__main__':
 	for extension in initial_extension:
 		bot.load_extension(extension)
+		
+date = 0
+joinedH = 0
+joinedM = 0
+joinedS = 0
 
 @bot.event
 async def on_ready():
 	print(f"{bot.user.name} has joined")
+	date = datetime.datetime.now()
+	joinedH = date.hour
+	joinedM = date.minute
+	joinedS = date.second
 
 Admin = 721232246186573876
 BotChannel = 721371169176944651
@@ -91,6 +101,17 @@ async def run(ctx):
 	getMember.start(ctx)
 	await ctx.send(embed=card)
 	ctx.command.enabled = False
+
+@bot.command(aliases=["stats","stat"])
+@commands.has_role("Admin")
+async def status(ctx):
+	now = datetime.datetime.now()
+	print(now.hour)
+	card = discord.Embed(
+	colour=ctx.author.color,
+	description=f"Bot has been active since {int(now.hour)-int(joinedH)}h {int(now.minute)-int(joinedM)}m {int(now.second)-int(joinedS)}s ago!"
+	)
+	await ctx.send(embed=card)
 	
 			
 @bot.event
